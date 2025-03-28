@@ -1,8 +1,8 @@
 import os
 import pytest
 import responses
-from src.weather_service import WeatherService
-from src.data_processor import WeatherDataProcessor
+from samples.weather_app.weather_service import WeatherService
+from samples.weather_app.data_processor import WeatherDataProcessor
 
 class TestWeatherIntegration:
     @pytest.fixture

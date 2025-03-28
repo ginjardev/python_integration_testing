@@ -7,16 +7,17 @@ import os
 
 API_KEY = os.getenv("API_KEY")
 
+# currency converter fixture
 @pytest.fixture
 def currency_converter():
     return CurrencyConverter(api_key=API_KEY)
 
-
+# postcode validator fixture
 @pytest.fixture
 def postcode_validator():
     return PostcodeValidator()
 
-
+# product and delivery cost fixture
 @pytest.fixture
 def delivery_cost_calculator():
     return DeliveryCostCalculator()
@@ -47,20 +48,27 @@ def test_postcode_validator_api(postcode_validator, postcode, expected):
     },    
 ])
 def test_delivery_cost_calculator_flow(postcode_validator, currency_converter, delivery_cost_calculator,test_data):
+    # caliculate delivery cost in USD
     delivery_cost = delivery_cost_calculator.calculate_delivery_cost(test_data['amount'], postcode_validator, test_data['postcode'])
+    # convert delivery cost to GBP
     delivery_cost_pounds = currency_converter.convert(delivery_cost, test_data['base_currency'], test_data['target_currency'])
+    # conveert product amount to GBP
     converted_amount_pounds = currency_converter.convert(test_data['amount'], test_data['base_currency'], test_data['target_currency'],)
+    # calculate cost of delivery and product amount
     cost_plus_delivery_pounds = delivery_cost_pounds + converted_amount_pounds
 
+    # assertion for London postcode
     if test_data['postcode'] == 'SW1A2HQ':
         assert delivery_cost == 0, f"Expected cost is 0 but got {delivery_cost}"
         assert delivery_cost_pounds == 0, f"Expected converted cost is 0 but got {delivery_cost_pounds}"
         assert converted_amount_pounds == 15.44, f"Expected converted amount pounds cost is 0 but got {converted_amount_pounds}" 
         assert converted_amount_pounds == 15.44, f"Expected converted amount pounds cost is 0 but got {cost_plus_delivery_pounds}" 
     else:
+        # assertion for postcode outside London
         assert delivery_cost == 5, f"Expected cost is 15.44 but got {delivery_cost}"
         assert delivery_cost_pounds == 3.86, f"Expected converted cost is 3.86 but got {delivery_cost_pounds}"
         assert converted_amount_pounds == 38.61, f"Expected converted amount pounds cost is 38.61 but got {converted_amount_pounds}"
         assert cost_plus_delivery_pounds == 42.47, f"Expected converted amount pounds cost is 0 but got {cost_plus_delivery_pounds}" 
+        
 
     
