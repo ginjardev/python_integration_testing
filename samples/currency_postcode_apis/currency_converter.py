@@ -1,10 +1,6 @@
 """This module converts product amount from Base Currency (USD) to Pounds Sterling (GBP)"""
 
 import freecurrencyapi
-import os
-
-
-API_KEY = os.getenv("API_KEY")
 
 class CurrencyConverter:
     def __init__(self, api_key):
