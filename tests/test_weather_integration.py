@@ -4,6 +4,7 @@ import responses
 from samples.weather_app.weather_service import WeatherService
 from samples.weather_app.data_processor import WeatherDataProcessor
 
+
 class TestWeatherIntegration:
     @pytest.fixture
     def mock_weather_service(self):
