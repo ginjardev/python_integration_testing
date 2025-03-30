@@ -28,22 +28,30 @@ def client():
 
 
 def test_add_user(client, set_test_status):
-    # Add a user via POST
-    response = client.post("/users", json={"name": "Joe"})
-    assert response.status_code == 201
-    assert response.get_json()["message"] == "User added"
-    set_test_status(status="passed", remark="API builds metadata returned")
+    try:
+        # Add a user via POST
+        response = client.post("/users", json={"name": "Joe"})
+        assert response.status_code == 201
+        assert response.get_json()["message"] == "User added"
+        set_test_status(status="passed", remark="API builds metadata returned")
+    except AssertionError as e:
+        set_test_status(status="failed", remark="API sessions metadata not returned")
+        raise (e)
 
 
 
 def test_get_user(client, set_test_status):
-    # Retrieve users via GET
-    response = client.get("/users")
-    assert response.status_code == 200
-    data = response.get_json()
-   
-    assert len(data) == 1
-    assert data[0]["name"] == "Joe"
-    assert "id" in data[0]
-    set_test_status(status="passed", remark="API builds metadata returned")
+    try:
+        # Retrieve users via GET
+        response = client.get("/users")
+        assert response.status_code == 200
+        data = response.get_json()
+    
+        assert len(data) == 1
+        assert data[0]["name"] == "Joe"
+        assert "id" in data[0]
+        set_test_status(status="passed", remark="API builds metadata returned")
+    except AssertionError as e:
+        set_test_status(status="failed", remark="API sessions metadata not returned")
+        raise (e)
 
