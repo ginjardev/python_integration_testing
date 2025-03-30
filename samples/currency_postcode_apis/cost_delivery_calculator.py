@@ -1,6 +1,6 @@
 """This module calculates product and delivery cost for with London and outside London"""
 
-class DeliveryCostCalculator:
+class CostDeliveryCalcalculator:
     
     def calculate_delivery_cost(self, amount, postcode_validator, postcode):
         """
