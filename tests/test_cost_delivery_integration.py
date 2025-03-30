@@ -26,16 +26,23 @@ def cost_delivery_calculator():
 
 @pytest.mark.parametrize('numbers, expected', [((10, 'USD', 'GBP'), 7.73)])
 def test_currency_converter_api(currency_converter, numbers, expected, set_test_status):
-    assert currency_converter.convert(numbers[0], numbers[1], numbers[2]) == expected
-    set_test_status(status="passed", remark="API builds metadata returned")
+    try:
+        assert currency_converter.convert(numbers[0], numbers[1], numbers[2]) == expected
+        set_test_status(status="passed", remark="API builds metadata returned")
+    except AssertionError as e:
+        set_test_status(status="failed", remark="API sessions metadata not returned")
+        raise (e)
 
 
 
 @pytest.mark.parametrize('postcode, expected', [('SW1A1AA', True)])
 def test_postcode_validator_api(postcode_validator, postcode, expected, set_test_status):
-    assert postcode_validator.is_london_postcode(postcode) == expected
-    set_test_status(status="passed", remark="API builds metadata returned")
-
+    try:
+        assert postcode_validator.is_london_postcode(postcode) == expected
+        set_test_status(status="passed", remark="API builds metadata returned")
+    except AssertionError as e:
+        set_test_status(status="failed", remark="API sessions metadata not returned")
+        raise (e)
 
 @pytest.mark.parametrize('test_data', [
     {
@@ -62,21 +69,26 @@ def test_delivery_cost_calculator_flow(postcode_validator, currency_converter, c
     # calculate cost of delivery and product amount
     cost_delivery_pounds = delivery_cost_pounds + converted_amount_pounds
 
-    # assertion for London postcode
-    if test_data['postcode'] == 'SW1A2HQ':
-        assert delivery_cost == 0, f"Expected delivery cost is 0 but got {delivery_cost}"
-        assert delivery_cost_pounds == 0, f"Expected converted cost is 0 but got {delivery_cost_pounds}"
-        assert converted_amount_pounds == 15.45, f"Expected converted amount (pounds) cost is 0 but got {converted_amount_pounds}" 
-        assert cost_delivery_pounds == 15.45, f"Expected converted amount (pounds) cost is 0 but got {cost_delivery_pounds}" 
-        set_test_status(status="passed", remark="API builds metadata returned")                              
+     
+    try:
+        # assertion for London postcode
+        if test_data['postcode'] == 'SW1A2HQ':
+            assert delivery_cost == 0, f"Expected delivery cost is 0 but got {delivery_cost}"
+            assert delivery_cost_pounds == 0, f"Expected converted cost is 0 but got {delivery_cost_pounds}"
+            assert converted_amount_pounds == 15.45, f"Expected converted amount (pounds) cost is 0 but got {converted_amount_pounds}" 
+            assert cost_delivery_pounds == 15.45, f"Expected converted amount (pounds) cost is 0 but got {cost_delivery_pounds}"
+            set_test_status(status="passed", remark="API builds metadata returned")
+        else:
+            # assertion for postcode outside London
+            assert delivery_cost == 5, f"Expected cost is 15.44 but got {delivery_cost}"
+            assert delivery_cost_pounds == 3.86, f"Expected converted cost is 3.86 but got {delivery_cost_pounds}"
+            assert converted_amount_pounds == 38.63, f"Expected converted amount (pounds) cost is 38.63 but got {converted_amount_pounds}"
+            assert cost_delivery_pounds == 42.49, f"Expected cost and delivery (pounds) cost is 42.49 but got {cost_delivery_pounds}" 
+            set_test_status(status="passed", remark="API builds metadata returned")
+    except AssertionError as e:
+        set_test_status(status="failed", remark="API sessions metadata not returned")
+        raise (e)
+        
 
-    else:
-        # assertion for postcode outside London
-        assert delivery_cost == 5, f"Expected cost is 15.44 but got {delivery_cost}"
-        assert delivery_cost_pounds == 3.86, f"Expected converted cost is 3.86 but got {delivery_cost_pounds}"
-        assert converted_amount_pounds == 38.63, f"Expected converted amount (pounds) cost is 38.63 but got {converted_amount_pounds}"
-        assert cost_delivery_pounds == 42.49, f"Expected cost and delivery (pounds) cost is 42.49 but got {cost_delivery_pounds}" 
-        set_test_status(status="passed", remark="API builds metadata returned")
-    
 
     
