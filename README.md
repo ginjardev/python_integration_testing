@@ -1,6 +1,8 @@
 ## Python Integration Testing
 
-The purpose of this repository is to demonstrate Playwright headless browser testing. Playwright is a web testing framework and browser automation framework which enables reliable end-to-end testing for modern web apps.
+The purpose of this repository is to demonstrate Python integration testing using Pytest and Playwright. 
+Pytest is commonly used for writing and executing tests in Python.
+Playwright is a popular testing framework and browser automation framework which enables reliable end-to-end testing for modern web apps.
 
 
 ### Setup and Installation
