@@ -2,9 +2,8 @@ import csv
 from datetime import datetime
 import os
 
-API_KEY = os.getenv("WEATHER_API_KEY")
-
 class WeatherDataProcessor:
+
     def __init__(self, weather_service):
         self.weather_service = weather_service
     
@@ -39,14 +38,3 @@ class WeatherDataProcessor:
         
         return True
     
-
-# weather = WeatherService(API_KEY)
-
-# wdp = WeatherDataProcessor(weather)
-
-# cities = ['London', 'Abuja', 'Lagos', 'Accra', 'New York', 'Istanbul']
-
-# weather_data = wdp.collect_city_weather(cities=cities)
-# print(weather_data)
-
-# wdp.export_to_csv(weather_data, 'weather_report.txt')

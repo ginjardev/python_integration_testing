@@ -4,9 +4,7 @@ import urllib
 import subprocess
 import pytest
 from playwright.sync_api import sync_playwright
-# from dotenv import load_dotenv
 
-# load_dotenv("../.env", override=True)
 
 capabilities = {
     "browserName": "Chrome",  # Browsers allowed: `Chrome`, `MicrosoftEdge`, `pw-chromium`, `pw-firefox` and `pw-webkit`

@@ -34,7 +34,6 @@ def test_currency_converter_api(currency_converter, numbers, expected, set_test_
         raise (e)
 
 
-
 @pytest.mark.parametrize('postcode, expected', [('SW1A1AA', True)])
 def test_postcode_validator_api(postcode_validator, postcode, expected, set_test_status):
     try:
@@ -43,6 +42,7 @@ def test_postcode_validator_api(postcode_validator, postcode, expected, set_test
     except AssertionError as e:
         set_test_status(status="failed", remark="API sessions metadata not returned")
         raise (e)
+
 
 @pytest.mark.parametrize('test_data', [
     {
@@ -59,17 +59,16 @@ def test_postcode_validator_api(postcode_validator, postcode, expected, set_test
     },    
 ])
 def test_delivery_cost_calculator_flow(postcode_validator, currency_converter, cost_delivery_calculator,test_data, set_test_status):
-    # caliculate delivery cost in USD
+    # calculate delivery cost in USD
     delivery_cost = cost_delivery_calculator.calculate_delivery_cost(test_data['amount'], postcode_validator, test_data['postcode'])
     # convert delivery cost to GBP
     delivery_cost_pounds = currency_converter.convert(delivery_cost, test_data['base_currency'], test_data['target_currency'])
-    # conveert product amount to GBP
+    # convert product amount to GBP
     converted_amount_pounds = currency_converter.convert(test_data['amount'], test_data['base_currency'], test_data['target_currency'],)
-    # print(converted_amount_pounds)
     # calculate cost of delivery and product amount
     cost_delivery_pounds = delivery_cost_pounds + converted_amount_pounds
 
-     
+    
     try:
         # assertion for London postcode
         if test_data['postcode'] == 'SW1A2HQ':

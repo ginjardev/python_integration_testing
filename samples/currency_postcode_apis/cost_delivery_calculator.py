@@ -4,7 +4,7 @@ class CostDeliveryCalcalculator:
     
     def calculate_delivery_cost(self, amount, postcode_validator, postcode):
         """
-        Calculate delivery cost based on converted amount
+        Calculate cost of item and delivery fee based on converted amount
 
         :param amount: Product Cost
         :param postcode_validator: PostcodeValidator Instance
@@ -31,6 +31,7 @@ class CostDeliveryCalcalculator:
         delivery_cost = self.calculate_delivery_cost(amount, postcode_validator, postcode)
 
         converted_delivery_cost = currency_converter.convert(delivery_cost, base_currency, target_currency)
+        
         converted_amount = currency_converter.convert(amount, base_currency, target_currency)
         
         total_cost_pounds = converted_delivery_cost + converted_amount

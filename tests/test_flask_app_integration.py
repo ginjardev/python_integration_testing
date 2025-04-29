@@ -1,5 +1,4 @@
 import pytest
-import sqlite3
 import os
 from samples.flask_api.app import app, DB_FILE, init_db
 from conftest import set_test_status
