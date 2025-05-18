@@ -7,7 +7,7 @@ DB_FILE = "test.db"
 def init_db():
     with sqlite3.connect(DB_FILE) as conn:
         conn.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)")
-    conn.close()
+
 
 @app.route("/users", methods=["POST"])
 def add_user():
