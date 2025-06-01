@@ -58,6 +58,8 @@ See image below:
 ```bash
 export LT_USERNAME="YOUR_USERNAME" 
 export LT_ACCESS_KEY="YOUR ACCESS KEY"
+export API_KEY="YOUR FREECURRENCY API"
+
 ```
 
 * **Windows**
@@ -65,6 +67,7 @@ export LT_ACCESS_KEY="YOUR ACCESS KEY"
 ```bash
 set LT_USERNAME="YOUR_USERNAME" 
 set LT_ACCESS_KEY="YOUR ACCESS KEY"
+set API_KEY="YOUR FREECURRENCY API"
 ```
 
 
